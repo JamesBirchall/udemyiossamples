@@ -27,7 +27,12 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
         
         tableView.dataSource = self
         
-        print("\(BASE_WEATHERURL)") //- make use of the new weather request API
+        // print("\(BASE_WEATHERURL)") //- make use of the new weather request API
+        
+        let currentWeather = CurrentWeather()
+        currentWeather.downloadWeatherDetails { 
+            print("Download and Show Complete")
+        }
     }
     
     // MARK: - TableView Data Source Methods
