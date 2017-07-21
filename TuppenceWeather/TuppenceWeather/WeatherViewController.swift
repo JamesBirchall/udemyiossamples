@@ -19,6 +19,8 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
     @IBOutlet private weak var todaysWeatherIcon: UIImageView!
     @IBOutlet private weak var tableView: UITableView!
     
+    private var currentWeather: CurrentWeather!
+    
     // MARK: - ViewController Override Methods
     
     override func viewDidLoad() {
@@ -27,9 +29,7 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
         
         tableView.dataSource = self
         
-        // print("\(BASE_WEATHERURL)") //- make use of the new weather request API
-        
-        let currentWeather = CurrentWeather()
+        currentWeather = CurrentWeather()
         currentWeather.downloadWeatherDetails { 
             print("Download and Show Complete")
         }
