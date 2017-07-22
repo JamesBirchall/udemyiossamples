@@ -30,8 +30,8 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
         tableView.dataSource = self
         
         currentWeather = CurrentWeather()
-        currentWeather.downloadWeatherDetails { 
-            print("Download and Show Complete")
+        currentWeather.downloadWeatherDetails {
+            self.updateMainUI()
         }
     }
     
@@ -45,6 +45,15 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath)
         return cell
+    }
+    
+    // MARK: - Private Methods
+    private func updateMainUI() {
+        todaysDateLabel.text = currentWeather.date
+        todaysTemperatureLabel.text = "\(currentWeather.currentTemperature)"
+        todaysLocationLabel.text = currentWeather.cityName
+        todaysWeatherDescriptionLabel.text = currentWeather.weatherType
+        todaysWeatherIcon.image = UIImage(named: "\(currentWeather.weatherType)")
     }
 }
 

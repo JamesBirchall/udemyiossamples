@@ -61,24 +61,39 @@ class CurrentWeather {
         return _date
     }
     
-    func downloadWeatherDetails(completed: () -> ()) {
+    func downloadWeatherDetails(completed: @escaping () -> ()) {
         let currentWeatherURL = URL(string: BASE_WEATHERURL)
         
         Alamofire.request(currentWeatherURL!).responseJSON {
-            response in
+            [weak self] response in
             print("Request: \(String(describing: response.request))")   // original url request
-//            print("Response: \(String(describing: response.response))") // http url response
-//            print("Result: \(response.result)")                         // response serialization result
             
-            if let json = response.result.value {
-                print("JSON: \(json)") // serialized json response
+            if let json = response.result.value as? Dictionary<String, Any> {
+                if let name = json["name"] as? String {
+                    self?._cityName = name.capitalized
+                    print("City: \(name)")
+                }
+                
+                if let weather = json["weather"] as? [Dictionary<String, Any>] {
+                    // get weather main string
+                    if let weatherDescription = weather[0]["main"] as? String {
+                        self?._weatherType = weatherDescription
+                        print("Weather Description: \(weatherDescription)")
+                    }
+                }
+                
+                // get temperature
+                if let weatherTemperature = json["main"] as? Dictionary<String, Any> {
+                    if let dayTemp = weatherTemperature["temp"] as? Double {
+                        let celsius = dayTemp - 273.15
+                        self?._currentTemperature = celsius
+                        print("Temperature: \(celsius)")
+                    }
+                }
             }
-            
-//            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-//                print("Data: \(utf8Text)") // original server data as UTF8 string
-//            }
+            print("Completed download and show")
+            print("We have set variables.")
+            completed()
         }
-        
-        completed()
     }
 }
