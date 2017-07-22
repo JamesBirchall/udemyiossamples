@@ -71,14 +71,14 @@ class CurrentWeather {
             if let json = response.result.value as? Dictionary<String, Any> {
                 if let name = json["name"] as? String {
                     self?._cityName = name.capitalized
-                    print("City: \(name)")
+                    //print("City: \(name)")
                 }
                 
                 if let weather = json["weather"] as? [Dictionary<String, Any>] {
                     // get weather main string
                     if let weatherDescription = weather[0]["main"] as? String {
                         self?._weatherType = weatherDescription
-                        print("Weather Description: \(weatherDescription)")
+                        //print("Weather Description: \(weatherDescription)")
                     }
                 }
                 
@@ -87,7 +87,7 @@ class CurrentWeather {
                     if let dayTemp = weatherTemperature["temp"] as? Double {
                         let celsius = dayTemp - 273.15
                         self?._currentTemperature = celsius
-                        print("Temperature: \(celsius)")
+                        //print("Temperature: \(celsius)")
                     }
                 }
             }

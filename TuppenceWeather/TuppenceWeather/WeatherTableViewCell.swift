@@ -22,11 +22,12 @@ class WeatherTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func updateCell(forecast: Forecast) {
+        weatherImageView.image = UIImage(named: forecast.weatherType)
+        weatherDayOfWeekLabel.text = forecast.date
+        weatherTypeOfWeatherLabel.text = forecast.weatherType
+        weatherHighTemperatureLabel.text = forecast.highTemp
+        weatherLowTemperatureLabel.text = forecast.lowTemp
     }
-
 }

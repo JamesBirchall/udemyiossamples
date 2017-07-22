@@ -20,6 +20,7 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
     @IBOutlet private weak var tableView: UITableView!
     
     private var currentWeather: CurrentWeather!
+    private var forecasts: Forecasts!
     
     // MARK: - ViewController Override Methods
     
@@ -33,24 +34,35 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
         currentWeather.downloadWeatherDetails {
             self.updateMainUI()
         }
+        
+        forecasts = Forecasts()
+        forecasts.downloadWeatherDetails {
+            print("Forecast Data updated")
+            self.tableView.reloadData() // refresh table now we have data
+        }
     }
     
     // MARK: - TableView Data Source Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return forecasts.forecastList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath)
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath) as? WeatherTableViewCell {
+            cell.updateCell(forecast: forecasts.forecastList[indexPath.row])
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
     
     // MARK: - Private Methods
     private func updateMainUI() {
         todaysDateLabel.text = currentWeather.date
-        todaysTemperatureLabel.text = "\(currentWeather.currentTemperature)"
+        let temperature = Int(currentWeather.currentTemperature)
+        todaysTemperatureLabel.text = "\(temperature)°"
         todaysLocationLabel.text = currentWeather.cityName
         todaysWeatherDescriptionLabel.text = currentWeather.weatherType
         todaysWeatherIcon.image = UIImage(named: "\(currentWeather.weatherType)")
