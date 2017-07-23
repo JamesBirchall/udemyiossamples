@@ -21,34 +21,33 @@ class WeatherViewController: UIViewController, UITableViewDataSource, CLLocation
     @IBOutlet private weak var tableView: UITableView!
     
     private let locationManager = CLLocationManager()
-    private var currentLocation: CLLocation!
+    private var currentLocation: CLLocation?
     
     private var currentWeather: CurrentWeather!
     private var forecasts: Forecasts!
     
     // MARK: - ViewController Override Methods
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        locationAuthorisationStatus()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // print(#file,#function + " Successfully Loaded.") print out the file and function we are in
         
+        tableView.dataSource = self
+        
+        currentWeather = CurrentWeather()
+        forecasts = Forecasts()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         // Core Location related setup
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.requestWhenInUseAuthorization()
         locationManager.startMonitoringSignificantLocationChanges()
-        
-        tableView.dataSource = self
-        
-        currentWeather = CurrentWeather()
-        forecasts = Forecasts()
+        locationAuthorisationStatus()
+        locationManager.startUpdatingLocation() // we want to check location on each run of the app
     }
     
     // MARK: - TableView Data Source Methods
@@ -80,11 +79,25 @@ class WeatherViewController: UIViewController, UITableViewDataSource, CLLocation
     // MARK: - CoreLocation Methods
     private func locationAuthorisationStatus() {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            // get location and co-ordinates for the requests
-            currentLocation = locationManager.location
-            Location.sharedInstance.latitude = currentLocation.coordinate.latitude
-            Location.sharedInstance.longitude = currentLocation.coordinate.longitude
-            print("Lon: \(Location.sharedInstance.longitude) | Lat: \(Location.sharedInstance.latitude)")
+            // get location and co-ordinates for the request
+            print("Status ok.")
+        } else {
+            // not authorised
+            locationManager.requestWhenInUseAuthorization()
+            locationAuthorisationStatus()   // runs this function again 
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        locationManager.stopUpdatingLocation()  // we only check the once rather than waste time.
+        
+        // this is where we know we will have a location to use - only write the once currentLocation
+        if currentLocation == nil {
+            currentLocation = locations.first
+            print(currentLocation.debugDescription)
+            Location.sharedInstance.latitude = currentLocation?.coordinate.latitude
+            Location.sharedInstance.longitude = currentLocation?.coordinate.longitude
             
             // Lets force the updates only when we have location data
             currentWeather.downloadWeatherDetails {
@@ -92,17 +105,8 @@ class WeatherViewController: UIViewController, UITableViewDataSource, CLLocation
             }
             
             forecasts.downloadWeatherDetails {
-                print("Forecast Data updated")
                 self.tableView.reloadData() // refresh table now we have data
             }
-            
-            //for forecast in forecasts.forecastList {
-            //    print(forecast.description)
-            //}
-        } else {
-            // not authorised
-            locationManager.requestWhenInUseAuthorization()
-            locationAuthorisationStatus()   // runs this function again 
         }
     }
 }
