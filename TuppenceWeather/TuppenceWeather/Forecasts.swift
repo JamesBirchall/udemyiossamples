@@ -58,6 +58,10 @@ class Forecasts {
                     }
                 }
             }
+            
+            // remove the first one - we already show todays in main view
+            self?.forecastList.removeFirst()
+            
             print("Completed forecast download and show")
             print("We have set forecast variables.")
             completed()

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class WeatherViewController: UIViewController, UITableViewDataSource {
+class WeatherViewController: UIViewController, UITableViewDataSource, CLLocationManagerDelegate {
 
     // MARK: - IBOutlets
     
@@ -19,27 +20,35 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
     @IBOutlet private weak var todaysWeatherIcon: UIImageView!
     @IBOutlet private weak var tableView: UITableView!
     
+    private let locationManager = CLLocationManager()
+    private var currentLocation: CLLocation!
+    
     private var currentWeather: CurrentWeather!
     private var forecasts: Forecasts!
     
     // MARK: - ViewController Override Methods
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        locationAuthorisationStatus()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // print(#file,#function + " Successfully Loaded.") print out the file and function we are in
         
+        
+        // Core Location related setup
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startMonitoringSignificantLocationChanges()
+        
         tableView.dataSource = self
         
         currentWeather = CurrentWeather()
-        currentWeather.downloadWeatherDetails {
-            self.updateMainUI()
-        }
-        
         forecasts = Forecasts()
-        forecasts.downloadWeatherDetails {
-            print("Forecast Data updated")
-            self.tableView.reloadData() // refresh table now we have data
-        }
     }
     
     // MARK: - TableView Data Source Methods
@@ -66,6 +75,35 @@ class WeatherViewController: UIViewController, UITableViewDataSource {
         todaysLocationLabel.text = currentWeather.cityName
         todaysWeatherDescriptionLabel.text = currentWeather.weatherType
         todaysWeatherIcon.image = UIImage(named: "\(currentWeather.weatherType)")
+    }
+    
+    // MARK: - CoreLocation Methods
+    private func locationAuthorisationStatus() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            // get location and co-ordinates for the requests
+            currentLocation = locationManager.location
+            Location.sharedInstance.latitude = currentLocation.coordinate.latitude
+            Location.sharedInstance.longitude = currentLocation.coordinate.longitude
+            print("Lon: \(Location.sharedInstance.longitude) | Lat: \(Location.sharedInstance.latitude)")
+            
+            // Lets force the updates only when we have location data
+            currentWeather.downloadWeatherDetails {
+                self.updateMainUI()
+            }
+            
+            forecasts.downloadWeatherDetails {
+                print("Forecast Data updated")
+                self.tableView.reloadData() // refresh table now we have data
+            }
+            
+            //for forecast in forecasts.forecastList {
+            //    print(forecast.description)
+            //}
+        } else {
+            // not authorised
+            locationManager.requestWhenInUseAuthorization()
+            locationAuthorisationStatus()   // runs this function again 
+        }
     }
 }
 
