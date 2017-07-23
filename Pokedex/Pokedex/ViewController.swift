@@ -44,7 +44,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // MARK: - CollectionViewFlowLayoutDelegate Methods
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let size = CGSize(width: collectionView.frame.width/4, height: collectionView.frame.width/4)
+        let size = CGSize(width: collectionView.frame.width/3.2, height: collectionView.frame.width/3.2)
         
         return size
     }
