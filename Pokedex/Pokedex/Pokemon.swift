@@ -9,8 +9,8 @@
 import Foundation
 
 struct Pokemon {
-    private var _name: String!
-    private var _pokedexID: Int!
+    fileprivate var _name: String!
+    fileprivate var _pokedexID: Int!
     
     var name: String {
         return _name
@@ -21,7 +21,7 @@ struct Pokemon {
     }
     
     init(name: String, pokedexID: Int) {
-        self._name = name
+        self._name = name.capitalized
         self._pokedexID = pokedexID
     }
 }
