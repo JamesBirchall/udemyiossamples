@@ -9,6 +9,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="pokemon.ttf">
+            <string>PokemonSolidNormal</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -24,9 +29,28 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k3X-aN-Hqu">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokemon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="EOP-Of-jzt">
+                                        <rect key="frame" x="99.5" y="29" width="121.5" height="42"/>
+                                        <fontDescription key="fontDescription" name="PokemonSolidNormal" family="Pokemon Solid" pointSize="30"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="music" translatesAutoresizingMaskIntoConstraints="NO" id="M8a-OA-3d3">
+                                        <rect key="frame" x="272" y="31" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="1GO-sD-EV9"/>
+                                            <constraint firstAttribute="height" constant="40" id="xpH-71-7H4"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" red="0.20124106850000001" green="0.81276311530000001" blue="0.3466181405" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="M8a-OA-3d3" secondAttribute="trailing" constant="8" id="Vo9-FM-G6e"/>
+                                    <constraint firstItem="EOP-Of-jzt" firstAttribute="centerX" secondItem="k3X-aN-Hqu" secondAttribute="centerX" id="d72-gQ-FBq"/>
                                     <constraint firstAttribute="height" constant="80" id="hJu-A6-oqD"/>
+                                    <constraint firstAttribute="bottom" secondItem="M8a-OA-3d3" secondAttribute="bottom" constant="9" id="mtL-LG-BYB"/>
+                                    <constraint firstItem="EOP-Of-jzt" firstAttribute="centerY" secondItem="k3X-aN-Hqu" secondAttribute="centerY" constant="10" id="zCn-3i-AS4"/>
                                 </constraints>
                             </view>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="FC7-cO-s4h">
@@ -109,6 +133,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="Yni-Lu-Du4" id="taL-Ja-CBu"/>
+                        <outlet property="musicIconImageView" destination="M8a-OA-3d3" id="SdE-dy-BlF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -119,5 +144,6 @@
     <resources>
         <image name="4" width="120" height="120"/>
         <image name="bg" width="1920" height="1200"/>
+        <image name="music" width="100" height="100"/>
     </resources>
 </document>

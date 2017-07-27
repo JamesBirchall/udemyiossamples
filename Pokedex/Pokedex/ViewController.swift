@@ -7,17 +7,25 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    // MARK: - IBOutlets
     
-    var pokemonList = [Pokemon]()
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var musicIconImageView: UIImageView!
+    
+    // MARK: - Private Variables
+    
+    private var pokemonList = [Pokemon]()
+    private var audioPlayer: AVAudioPlayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // let charmander = Pokemon(name: "Charmander", pokedexID: 4)
+        initAudio()
+        initTouchOnMusicIconImageView()
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -29,6 +37,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     // MARK: - Private Methods
+    
+    private func initAudio() {
+        let path = Bundle.main.path(forResource: "music", ofType: ".mp3")!
+        let urlPath = URL(string: path)!
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: urlPath)
+            audioPlayer.prepareToPlay()
+            audioPlayer.numberOfLoops = -1
+            audioPlayer.play()
+        } catch {
+            print("Error creating AVAudioPlayer: \(error)")
+        }
+    }
     
     private func parsePokemonCSV() {
         let path = Bundle.main.path(forResource: "pokemon", ofType: "csv")
@@ -45,6 +67,22 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
         } catch {
             print("Error initialising CSV class: \(error).")
+        }
+    }
+    
+    private func initTouchOnMusicIconImageView() {
+        let tapGestureRegocogniser = UITapGestureRecognizer(target: self, action: #selector(musicIconPressed(gestureRecogniser:)))
+        musicIconImageView.isUserInteractionEnabled = true
+        musicIconImageView.addGestureRecognizer(tapGestureRegocogniser)
+    }
+    
+    func musicIconPressed(gestureRecogniser: UITapGestureRecognizer) {
+        if audioPlayer.isPlaying {
+            audioPlayer.pause()
+            musicIconImageView.alpha = 0.4
+        } else {
+            audioPlayer.play()
+            musicIconImageView.alpha = 1
         }
     }
     
