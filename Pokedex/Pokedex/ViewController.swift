@@ -35,6 +35,7 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         
         pokemonSearchBar.delegate = self
+        pokemonSearchBar.returnKeyType = .done
         
         parsePokemonCSV()
         for pokemon in pokemonList {
@@ -142,6 +143,7 @@ extension ViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == nil || searchBar.text == "" {
             inSearchMode = false
+            view.endEditing(true)
         } else {
             inSearchMode = true
             let searchTextLowecased = searchBar.text!.lowercased().capitalized
@@ -155,5 +157,8 @@ extension ViewController: UISearchBarDelegate {
         }
         collectionView.reloadData()
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 }
-
