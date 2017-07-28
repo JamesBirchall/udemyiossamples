@@ -24,7 +24,10 @@ class ViewController: UIViewController {
     fileprivate var filteredPokemonList = [Pokemon]()
     private var audioPlayer: AVAudioPlayer!
     fileprivate var inSearchMode = false
+    fileprivate let showPokemonDetail = "showPokemonDetail"
 
+    // MARK: - ViewController Overrides
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +43,17 @@ class ViewController: UIViewController {
         parsePokemonCSV()
         for pokemon in pokemonList {
             print("\(pokemon.pokedexID) : \(pokemon.name) ")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // TODO - Add Code to setup and send object to new viewController
+        if segue.identifier == showPokemonDetail {
+            if let pokemonDetailViewController = segue.destination as? PokemonDetailViewController {
+                if let pokemon = sender as? Pokemon {
+                    pokemonDetailViewController.pokemon = pokemon
+                }
+            }
         }
     }
     
@@ -97,6 +111,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     // MARK: - CollectionView Data Source Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -127,7 +142,15 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     // MARK: - COllectionView Delegate Methods
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TO DO ADD CODE HERE ON SELECTION
+        var pokemon: Pokemon
+        
+        if inSearchMode {
+            pokemon = filteredPokemonList[indexPath.row]
+        } else {
+            pokemon = pokemonList[indexPath.row]
+        }
+        
+        performSegue(withIdentifier: showPokemonDetail, sender: pokemon)
     }
     
     // MARK: - CollectionViewFlowLayoutDelegate Methods
