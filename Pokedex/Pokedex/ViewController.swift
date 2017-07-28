@@ -22,9 +22,11 @@ class ViewController: UIViewController {
     
     fileprivate var pokemonList = [Pokemon]()
     fileprivate var filteredPokemonList = [Pokemon]()
-    private var audioPlayer: AVAudioPlayer!
     fileprivate var inSearchMode = false
     fileprivate let showPokemonDetail = "showPokemonDetail"
+    
+    // MARK: - Public Variables
+    var audioPlayer: AVAudioPlayer!
 
     // MARK: - ViewController Overrides
     
@@ -46,12 +48,28 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        if !audioPlayer.isPlaying {
+            musicIconImageView.alpha = 0.4
+        } else {
+            musicIconImageView.alpha = 1
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // TODO - Add Code to setup and send object to new viewController
         if segue.identifier == showPokemonDetail {
             if let pokemonDetailViewController = segue.destination as? PokemonDetailViewController {
-                if let pokemon = sender as? Pokemon {
+                if let data = sender as? (Pokemon, AVAudioPlayer) {
+                    let pokemon = data.0
+                    let audio = data.1
                     pokemonDetailViewController.pokemon = pokemon
+                    pokemonDetailViewController.audioPlayer = audio
                 }
             }
         }
@@ -150,7 +168,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             pokemon = pokemonList[indexPath.row]
         }
         
-        performSegue(withIdentifier: showPokemonDetail, sender: pokemon)
+        performSegue(withIdentifier: showPokemonDetail, sender: (pokemon, audioPlayer))
     }
     
     // MARK: - CollectionViewFlowLayoutDelegate Methods
