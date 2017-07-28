@@ -32,10 +32,14 @@ class WeatherViewController: UIViewController, UITableViewDataSource, CLLocation
         super.viewDidLoad()
         // print(#file,#function + " Successfully Loaded.") print out the file and function we are in
         
+
+        
         tableView.dataSource = self
         
         currentWeather = CurrentWeather()
         forecasts = Forecasts()
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,7 +51,14 @@ class WeatherViewController: UIViewController, UITableViewDataSource, CLLocation
         locationManager.requestWhenInUseAuthorization()
         locationManager.startMonitoringSignificantLocationChanges()
         locationAuthorisationStatus()
-        locationManager.startUpdatingLocation() // we want to check location on each run of the app
+        
+        let queue = DispatchQueue(label: "locationQueue")
+        
+        queue.asyncAfter(deadline: .now() + 2) {
+            [weak self] in
+            print("Starting Location Updates...")
+            self?.locationManager.startUpdatingLocation() // we want to check location on each run of the app
+        }
     }
     
     // MARK: - TableView Data Source Methods
@@ -90,8 +101,6 @@ class WeatherViewController: UIViewController, UITableViewDataSource, CLLocation
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        locationManager.stopUpdatingLocation()  // we only check the once rather than waste time.
-        
         // this is where we know we will have a location to use - only write the once currentLocation
         if currentLocation == nil {
             currentLocation = locations.first
@@ -108,6 +117,8 @@ class WeatherViewController: UIViewController, UITableViewDataSource, CLLocation
                 self.tableView.reloadData() // refresh table now we have data
             }
         }
+        
+        locationManager.stopUpdatingLocation()  // we only check the once rather than waste time.
     }
 }
 

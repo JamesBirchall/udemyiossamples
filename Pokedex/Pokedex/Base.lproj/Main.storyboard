@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokemon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="EOP-Of-jzt">
-                                        <rect key="frame" x="99.5" y="29" width="121.5" height="42"/>
+                                        <rect key="frame" x="100" y="29" width="121.5" height="42"/>
                                         <fontDescription key="fontDescription" name="PokemonSolidNormal" family="Pokemon Solid" pointSize="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -53,7 +53,7 @@
                                     <constraint firstItem="EOP-Of-jzt" firstAttribute="centerY" secondItem="k3X-aN-Hqu" secondAttribute="centerY" constant="10" id="zCn-3i-AS4"/>
                                 </constraints>
                             </view>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="FC7-cO-s4h">
+                            <searchBar contentMode="redraw" placeholder="Search Pokemon" translatesAutoresizingMaskIntoConstraints="NO" id="FC7-cO-s4h">
                                 <rect key="frame" x="0.0" y="80" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="jnd-Jl-hGL"/>
@@ -134,6 +134,7 @@
                     <connections>
                         <outlet property="collectionView" destination="Yni-Lu-Du4" id="taL-Ja-CBu"/>
                         <outlet property="musicIconImageView" destination="M8a-OA-3d3" id="SdE-dy-BlF"/>
+                        <outlet property="pokemonSearchBar" destination="FC7-cO-s4h" id="xpf-r9-iJ7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
