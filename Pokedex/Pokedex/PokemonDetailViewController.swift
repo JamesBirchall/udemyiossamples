@@ -56,6 +56,8 @@ class PokemonDetailViewController: UIViewController {
         pokemonNameLabel.text = _pokemon.name
     }
     
+    // MARK: - Private Methods
+    
     private func initTouchOnMusicIconImageView() {
         let tapGestureRegocogniser = UITapGestureRecognizer(target: self, action: #selector(musicIconPressed(gestureRecogniser:)))
         musicIconImageView.isUserInteractionEnabled = true
@@ -67,6 +69,8 @@ class PokemonDetailViewController: UIViewController {
         backIconImageView.isUserInteractionEnabled = true
         backIconImageView.addGestureRecognizer(tapGestureRegocogniser)
     }
+    
+    // MARK: - Public Methods
     
     func musicIconPressed(gestureRecogniser: UITapGestureRecognizer) {
         if audioPlayer.isPlaying {
