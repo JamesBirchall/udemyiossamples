@@ -29,6 +29,9 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var pokemonNextEvolutionLabel: UILabel!
     @IBOutlet weak var pokemonCurrentEvolutionImageView: UIImageView!
     @IBOutlet weak var pokemonNextEvolutionImageView: UIImageView!
+    @IBOutlet weak var activitySpinner: UIActivityIndicatorView!
+    
+    
     
     // MARK: - Private Variables
     private var _pokemon: Pokemon!
@@ -59,11 +62,14 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activitySpinner.startAnimating()
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         pokemon.downloadPokemonDetails {
             [weak self] in
             // Code here for completion
             // print("Download Pokemon Details Returned.")
-            
             DispatchQueue.main.async {
                 self?.updateUI()
             }
@@ -71,7 +77,9 @@ class PokemonDetailViewController: UIViewController {
             self?.pokemon.downloadPokemonDescription {
                 // print("Download Pokemon Description Returned.")
                 DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self?.updateDescription()
+                    self?.activitySpinner.stopAnimating()
                 }
             }
         }
@@ -99,8 +107,15 @@ class PokemonDetailViewController: UIViewController {
         pokemonWeightLabel.text = "\(pokemon.weight)"
         pokemonBaseAttackLabel.text = "\(pokemon.attack)"
         pokemonDefenceLabel.text = "\(pokemon.defense)"
-        pokemonNextEvolutionLabel.text = pokemon.nextEvolution
-        pokemonNextEvolutionImageView.image = UIImage(named: "\(pokemon.nextEvolutionPokedexID)")
+        if pokemon.nextEvolutionPokedexID == 0 || pokemon.nextEvolutionPokedexID > 1000 {
+            pokemonNextEvolutionLabel.text = "No evolution"
+            pokemonNextEvolutionImageView.isHidden = true
+        } else {
+            pokemonNextEvolutionLabel.text = pokemon.nextEvolution
+            pokemonNextEvolutionImageView.image = UIImage(named: "\(pokemon.nextEvolutionPokedexID)")
+            pokemonNextEvolutionImageView.isHidden = false
+        }
+        
         // print("Label and UI Updates Completed.")
     }
     
