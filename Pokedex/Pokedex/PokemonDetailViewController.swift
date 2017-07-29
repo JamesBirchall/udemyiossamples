@@ -59,6 +59,23 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pokemon.downloadPokemonDetails {
+            [weak self] in
+            // Code here for completion
+            // print("Download Pokemon Details Returned.")
+            
+            DispatchQueue.main.async {
+                self?.updateUI()
+            }
+            
+            self?.pokemon.downloadPokemonDescription {
+                // print("Download Pokemon Description Returned.")
+                DispatchQueue.main.async {
+                    self?.updateDescription()
+                }
+            }
+        }
+        
         initTouchOnMusicIconImageView()
         initTouchOnBackIconImageView()
         
@@ -70,9 +87,26 @@ class PokemonDetailViewController: UIViewController {
         pokemonIDLabel.text = "\(_pokemon.pokedexID)"
         pokemonMainImageView.image = UIImage(named: "\(_pokemon.pokedexID)")
         pokemonCurrentEvolutionImageView.image = UIImage(named: "\(_pokemon.pokedexID)")
+        
+        
     }
     
     // MARK: - Private Methods
+    
+    private func updateUI() {
+        pokemonTypeLabel.text = pokemon.type
+        pokemonHeightLabel.text = "\(pokemon.height)"
+        pokemonWeightLabel.text = "\(pokemon.weight)"
+        pokemonBaseAttackLabel.text = "\(pokemon.attack)"
+        pokemonDefenceLabel.text = "\(pokemon.defense)"
+        pokemonNextEvolutionLabel.text = pokemon.nextEvolution
+        pokemonNextEvolutionImageView.image = UIImage(named: "\(pokemon.nextEvolutionPokedexID)")
+        // print("Label and UI Updates Completed.")
+    }
+    
+    private func updateDescription() {
+        pokemonDescriptionTextView.text = pokemon.description
+    }
     
     private func initTouchOnMusicIconImageView() {
         let tapGestureRegocogniser = UITapGestureRecognizer(target: self, action: #selector(musicIconPressed(gestureRecogniser:)))

@@ -43,9 +43,9 @@ class ViewController: UIViewController {
         pokemonSearchBar.returnKeyType = .done
         
         parsePokemonCSV()
-        for pokemon in pokemonList {
-            print("\(pokemon.pokedexID) : \(pokemon.name) ")
-        }
+//        for pokemon in pokemonList {
+//            print("\(pokemon.pokedexID) : \(pokemon.name) ")
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
