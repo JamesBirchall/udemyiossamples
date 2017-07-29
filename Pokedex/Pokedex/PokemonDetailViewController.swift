@@ -17,6 +17,19 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var musicIconImageView: UIImageView!
     @IBOutlet weak var backIconImageView: UIImageView!
     
+    @IBOutlet weak var pokemonMainImageView: UIImageView!
+    @IBOutlet weak var pokemonDescriptionTextView: UITextView!
+    @IBOutlet weak var pokemonTypeLabel: UILabel!
+    @IBOutlet weak var pokemonHeightLabel: UILabel!
+    @IBOutlet weak var pokemonWeightLabel: UILabel!
+    @IBOutlet weak var pokemonDefenceLabel: UILabel!
+    @IBOutlet weak var pokemonIDLabel: UILabel!
+    @IBOutlet weak var pokemonBaseAttackLabel: UILabel!
+    
+    @IBOutlet weak var pokemonNextEvolutionLabel: UILabel!
+    @IBOutlet weak var pokemonCurrentEvolutionImageView: UIImageView!
+    @IBOutlet weak var pokemonNextEvolutionImageView: UIImageView!
+    
     // MARK: - Private Variables
     private var _pokemon: Pokemon!
     private var _audioPlayer: AVAudioPlayer!
@@ -54,6 +67,9 @@ class PokemonDetailViewController: UIViewController {
         }
         
         pokemonNameLabel.text = _pokemon.name
+        pokemonIDLabel.text = "\(_pokemon.pokedexID)"
+        pokemonMainImageView.image = UIImage(named: "\(_pokemon.pokedexID)")
+        pokemonCurrentEvolutionImageView.image = UIImage(named: "\(_pokemon.pokedexID)")
     }
     
     // MARK: - Private Methods
