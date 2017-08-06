@@ -93,6 +93,8 @@ class Pokemon {
     
     func downloadPokemonDetails(completed: @escaping () -> ()) {
         if let url = URL(string: pokemonURL) {
+            
+            print("\(url)")
             let pokemonDataSession = URLSession(configuration: .default)
             pokemonDataSession.dataTask(with: url, completionHandler: {
                 (data, response, error) in
@@ -187,6 +189,7 @@ class Pokemon {
     
     func downloadPokemonDescription(completed: @escaping () -> ()) {
         if let descriptionFullURL = URL(string:_descriptionsURL) {
+            print("\(descriptionFullURL)")
             let pokemonDescriptionSession = URLSession(configuration: .default)
             pokemonDescriptionSession.dataTask(with: descriptionFullURL, completionHandler: {
                 (data, response, error) in
