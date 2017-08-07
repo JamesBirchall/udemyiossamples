@@ -16,6 +16,7 @@
 		456DA50B1F37A8510028C6E6 /* JustMyStuffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456DA50A1F37A8510028C6E6 /* JustMyStuffTests.swift */; };
 		456DA51B1F37AC660028C6E6 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456DA51A1F37AC660028C6E6 /* Item.swift */; };
 		456DA51E1F37B0680028C6E6 /* MaterialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456DA51D1F37B0680028C6E6 /* MaterialView.swift */; };
+		45BDED691F38FF400027A078 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BDED681F38FF400027A078 /* ItemTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		456DA50C1F37A8510028C6E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		456DA51A1F37AC660028C6E6 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		456DA51D1F37B0680028C6E6 /* MaterialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialView.swift; sourceTree = "<group>"; };
+		45BDED681F38FF400027A078 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				456DA51D1F37B0680028C6E6 /* MaterialView.swift */,
+				45BDED681F38FF400027A078 /* ItemTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				456DA4F51F37A8510028C6E6 /* ViewController.swift in Sources */,
 				456DA51E1F37B0680028C6E6 /* MaterialView.swift in Sources */,
 				456DA4F31F37A8510028C6E6 /* AppDelegate.swift in Sources */,
+				45BDED691F38FF400027A078 /* ItemTableViewCell.swift in Sources */,
 				456DA4FB1F37A8510028C6E6 /* JustMyStuff.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +476,7 @@
 				456DA5111F37A8510028C6E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		456DA5121F37A8510028C6E6 /* Build configuration list for PBXNativeTarget "JustMyStuffTests" */ = {
 			isa = XCConfigurationList;
@@ -480,6 +485,7 @@
 				456DA5141F37A8510028C6E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

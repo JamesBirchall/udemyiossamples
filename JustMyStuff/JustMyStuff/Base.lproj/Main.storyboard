@@ -38,7 +38,7 @@
                                 <rect key="frame" x="16" y="108" width="288" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="itemCell" rowHeight="120" id="EPh-nF-wHo">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="itemCell" rowHeight="120" id="EPh-nF-wHo" customClass="ItemTableViewCell" customModule="JustMyStuff" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="288" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EPh-nF-wHo" id="V4l-ah-AZu">
@@ -105,6 +105,12 @@
                                                 <userDefinedRuntimeAttribute type="boolean" keyPath="materialDesign" value="YES"/>
                                             </userDefinedRuntimeAttributes>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="detailsLabel" destination="HHi-Rz-DvV" id="Wh4-Kl-hnx"/>
+                                            <outlet property="priceLabel" destination="I30-I8-kwQ" id="fJH-2S-wCO"/>
+                                            <outlet property="thumbnailImageView" destination="Umn-7V-6Ga" id="4lQ-Bi-jpj"/>
+                                            <outlet property="titleLabel" destination="ewY-cF-BMD" id="nWC-Db-uc3"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -125,6 +131,10 @@
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="itemTableView" destination="872-Ql-kyK" id="rEg-ik-fid"/>
+                        <outlet property="sortingSegmentedControl" destination="OKb-Sq-uye" id="qrE-nR-RKg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
