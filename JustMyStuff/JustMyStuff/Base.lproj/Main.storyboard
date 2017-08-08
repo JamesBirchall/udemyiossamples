@@ -221,6 +221,9 @@
                                 <state key="normal" title="Save Item">
                                     <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="saveItemButton:" destination="KxD-tG-YTZ" eventType="touchUpInside" id="JeB-Oa-sfp"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -256,6 +259,13 @@
                             <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="detailsLabel" destination="5hZ-J2-TUJ" id="Jpe-Mp-s6Y"/>
+                        <outlet property="itemThumbnailImageView" destination="Fkb-D4-kR5" id="W6d-u9-j6u"/>
+                        <outlet property="priceLabel" destination="8CA-u9-zq4" id="gsV-7u-vGG"/>
+                        <outlet property="storePickerView" destination="HPb-YS-vjz" id="b83-7v-2Ro"/>
+                        <outlet property="titleLabel" destination="ofv-Gf-aca" id="HfD-0D-jbI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MRB-6X-tI6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
