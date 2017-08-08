@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - Private Variables
     
     var fetchedResultsController: NSFetchedResultsController<Item>!
+    private let itemDetailSegue = "ItemDetailsSegue"
     
     // MARK: - Overrides for ViewController
     
@@ -67,7 +68,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - UITableViewDelegate Methods
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         return 120
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let items = fetchedResultsController.fetchedObjects, items.count > 0 {
+            let item = items[indexPath.row]
+            performSegue(withIdentifier: itemDetailSegue, sender: item)
+        }
     }
     
     // MARK: - FetchResultsControllerDelegate Methods
@@ -84,7 +94,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        // take care of various cases
         
         switch type {
         case .insert:
@@ -113,6 +122,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - Private Methods
     
     private func configureCell(cell: ItemTableViewCell, indexPath: IndexPath) {
+        
         let item = fetchedResultsController.object(at: indexPath)
         cell.configureCell(item: item)
     }
@@ -140,6 +150,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     private func generateTestData() {
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
@@ -159,6 +170,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         item3.details = "A more affordable Tesla, with an awesome drive smart and energy re-use technology."
         
         try! context.save() // perists the data to disk in Core Data.
+    }
+    
+    // MARK: - Segue Methods
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == itemDetailSegue {
+            if let destination = segue.destination as? ItemDetailsViewController {
+                if let item = sender as? Item {
+                    destination.itemToEdit = item
+                }
+            }
+        }
     }
 }
 

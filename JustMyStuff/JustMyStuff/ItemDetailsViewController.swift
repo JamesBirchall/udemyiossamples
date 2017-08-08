@@ -20,6 +20,8 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet weak var storePickerView: UIPickerView!
     
     var stores = [Store]()
+    
+    var itemToEdit: Item?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +34,14 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         storePickerView.dataSource = self
         storePickerView.delegate = self
         
-        // deleteStores()
+        if itemToEdit != nil {
+            loadItemData()
+        }
         
         // test data
+        // deleteStores()
         // createStores()
         getStores()
-        
     }
     
     // MARK: - PickerView Data Source Methods
@@ -82,6 +86,10 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func changeImage(_ sender: UIButton) {
+        
+    }
+
     // MARK: - Private Methods
     
     private func createStores() {
@@ -141,6 +149,22 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
             storePickerView.reloadAllComponents()
         } catch {
             print("Problem Fetching Data: \(error)")
+        }
+    }
+
+    private func loadItemData() {
+        if let item = itemToEdit {
+            titleLabel.text = item.title
+            priceLabel.text = "£\(item.price)"
+            detailsLabel.text = item.details
+            
+            if let store = item.store {
+                for (index, value) in stores.enumerated() {
+                    if value.name == store.name {
+                        storePickerView.selectRow(index, inComponent: 0, animated: true)
+                    }
+                }
+            }
         }
     }
 }
