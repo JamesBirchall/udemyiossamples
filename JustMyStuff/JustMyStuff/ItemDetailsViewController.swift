@@ -59,7 +59,27 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
     // MARK: - IBActions
     
     @IBAction func saveItemButton(_ sender: UIButton) {
-        // TODO - Add Save code here.
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let item = Item(context: context)
+        
+        if titleLabel.text != "" && priceLabel.text != "" && detailsLabel.text != "" {
+            item.title = titleLabel.text
+            if let price = priceLabel.text as NSString? {
+                item.price  = price.doubleValue
+            } else {
+                item.price = 0
+            }
+            item.details = detailsLabel.text
+            
+            item.store = stores[storePickerView.selectedRow(inComponent: 0)]
+        }
+        
+        try! context.save()
+        
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Private Methods

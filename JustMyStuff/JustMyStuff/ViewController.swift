@@ -130,6 +130,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         fetchedResultsController = controller
         
+        controller.delegate = self
+        
         do {
             try controller.performFetch()
         } catch {
