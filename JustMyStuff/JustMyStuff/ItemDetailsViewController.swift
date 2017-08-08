@@ -67,18 +67,27 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
-        let item = Item(context: context)
+        var item: Item!
+        
+        if itemToEdit == nil {
+            item = Item(context: context)
+        } else {
+            item = itemToEdit
+        }
         
         if titleLabel.text != "" && priceLabel.text != "" && detailsLabel.text != "" {
             item.title = titleLabel.text
-            if let price = priceLabel.text as NSString? {
-                item.price  = price.doubleValue
-            } else {
-                item.price = 0
+            
+            var priceLabelAdjusted = priceLabel.text!
+            priceLabelAdjusted.remove(at: priceLabelAdjusted.startIndex)
+            if let priceDouble = Double(priceLabelAdjusted) {
+                item.price = priceDouble
             }
+            
             item.details = detailsLabel.text
             
             item.store = stores[storePickerView.selectedRow(inComponent: 0)]
+            print(item.store?.name)
         }
         
         try! context.save()
@@ -160,10 +169,14 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
             
             if let store = item.store {
                 for (index, value) in stores.enumerated() {
+                    print("Stores: \(value.name) | \(store.name)")
                     if value.name == store.name {
                         storePickerView.selectRow(index, inComponent: 0, animated: true)
+                        print("Found Match! \(value.name.debugDescription), \(store.name.debugDescription)")
                     }
                 }
+            } else {
+                print("No Store to Load")
             }
         }
     }
