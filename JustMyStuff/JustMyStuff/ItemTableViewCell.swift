@@ -15,4 +15,19 @@ class ItemTableViewCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
     
+    func configureCell(item: Item) {
+        
+        titleLabel.text = item.title
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 2
+        let priceAsNSNumber = NSNumber(floatLiteral: item.price)
+        let price = numberFormatter.string(from: priceAsNSNumber)
+        if let price = price {
+            priceLabel.text = "£\(price)"
+        }
+        
+        detailsLabel.text = item.details
+    }
 }
