@@ -34,14 +34,15 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         storePickerView.dataSource = self
         storePickerView.delegate = self
         
-        if itemToEdit != nil {
-            loadItemData()
-        }
-        
         // test data
         // deleteStores()
         // createStores()
         getStores()
+        
+        // needs to happen after we load up stores
+        if itemToEdit != nil {
+            loadItemData()
+        }
     }
     
     // MARK: - PickerView Data Source Methods
@@ -164,15 +165,20 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
     private func loadItemData() {
         if let item = itemToEdit {
             titleLabel.text = item.title
-            priceLabel.text = "£\(item.price)"
+            let priceNumber = NSNumber(floatLiteral: item.price)
+            let formatter = NumberFormatter()
+            formatter.minimumFractionDigits = 2
+            formatter.maximumFractionDigits = 2
+            if let price = formatter.string(from: priceNumber) {
+                priceLabel.text = "£\(price)"
+            }
             detailsLabel.text = item.details
             
             if let store = item.store {
                 for (index, value) in stores.enumerated() {
-                    print("Stores: \(value.name) | \(store.name)")
-                    if value.name == store.name {
+                    if value.name! == store.name! {
                         storePickerView.selectRow(index, inComponent: 0, animated: true)
-                        print("Found Match! \(value.name.debugDescription), \(store.name.debugDescription)")
+
                     }
                 }
             } else {
