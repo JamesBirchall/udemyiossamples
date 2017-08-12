@@ -133,8 +133,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let context = appDelegate.persistentContainer.viewContext
         
         let dateSort = NSSortDescriptor(key: "created", ascending: false)   // created is timestamp in Item
+        let priceSort = NSSortDescriptor(key: "price", ascending: true)
+        let titleSort = NSSortDescriptor(key: "title", ascending: true)
+        
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-        fetchRequest.sortDescriptors = [dateSort]
+        
+        switch sortingSegmentedControl.selectedSegmentIndex {
+        case 0:
+            fetchRequest.sortDescriptors = [dateSort]
+        case 1:
+            fetchRequest.sortDescriptors = [priceSort]
+        case 2:
+            fetchRequest.sortDescriptors = [titleSort]
+        default:
+            print("Not possible to get to another SelectedSegmentIndex - Out of Bounds.")
+            return
+        }
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
@@ -183,5 +197,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
+    // MARK: - IBActions
+    
+    @IBAction func segmentSelectorPressed(_ sender: UISegmentedControl) {
+        attemptFetch()
+        itemTableView.reloadData()
+    }
+    
 }
 
