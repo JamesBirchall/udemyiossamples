@@ -78,7 +78,7 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         if titleLabel.text != "" && priceLabel.text != "" && detailsLabel.text != "" {
             item.title = titleLabel.text
-            
+
             var priceLabelAdjusted = priceLabel.text!
             priceLabelAdjusted.remove(at: priceLabelAdjusted.startIndex)
             if let priceDouble = Double(priceLabelAdjusted) {
@@ -88,13 +88,28 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
             item.details = detailsLabel.text
             
             item.store = stores[storePickerView.selectedRow(inComponent: 0)]
-            print(item.store?.name)
         }
         
         try! context.save()
         
         navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func deleteItem(_ sender: UIBarButtonItem) {
+        
+        if itemToEdit != nil {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            
+            context.delete(itemToEdit!)
+            
+            try! context.save()
+        }
+        
+        navigationController?.popViewController(animated: true)
+    }
+
+    
     
     @IBAction func changeImage(_ sender: UIButton) {
         
