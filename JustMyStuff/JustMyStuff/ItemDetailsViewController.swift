@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - IBOutlets
     
@@ -20,8 +20,8 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet weak var storePickerView: UIPickerView!
     
     var stores = [Store]()
-    
     var itemToEdit: Item?
+    var imagePicker: UIImagePickerController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,9 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         
         storePickerView.dataSource = self
         storePickerView.delegate = self
+        
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
         
         // test data
         // deleteStores()
@@ -61,6 +64,16 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         return store.name
     }
     
+    // MARK: - ImagePicker Delegate Methods
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            itemThumbnailImageView.image = image
+        }
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - IBActions
     
     @IBAction func saveItemButton(_ sender: UIButton) {
@@ -69,6 +82,7 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
         let context = appDelegate.persistentContainer.viewContext
         
         var item: Item!
+        let picture = Image(context: context)
         
         if itemToEdit == nil {
             item = Item(context: context)
@@ -88,6 +102,9 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
             item.details = detailsLabel.text
             
             item.store = stores[storePickerView.selectedRow(inComponent: 0)]
+            
+            picture.image = itemThumbnailImageView.image
+            item.image = picture
         }
         
         try! context.save()
@@ -112,7 +129,7 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     
     @IBAction func changeImage(_ sender: UIButton) {
-        
+        present(imagePicker, animated: true, completion: nil)
     }
 
     // MARK: - Private Methods
@@ -198,6 +215,10 @@ class ItemDetailsViewController: UIViewController, UIPickerViewDataSource, UIPic
                 }
             } else {
                 print("No Store to Load")
+            }
+            
+            if let image = item.image?.image as? UIImage {
+                itemThumbnailImageView.image = image
             }
         }
     }

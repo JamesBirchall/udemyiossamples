@@ -29,5 +29,9 @@ class ItemTableViewCell: UITableViewCell {
         }
         
         detailsLabel.text = item.details
+        
+        if let image = item.image?.image as? UIImage {
+            thumbnailImageView.image = image
+        }
     }
 }
